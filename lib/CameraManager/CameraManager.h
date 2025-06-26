@@ -15,8 +15,8 @@ public:
     void init();
 
 private:
-    MQTTClient& mqtt;    // Reference to MQTT client
-    bool isInitialized;  // Indicates if the camera is successfully initialized
+    MQTTClient& mqtt;   
+    bool isInitialized;  
 };
 
 #endif

@@ -16,7 +16,7 @@ bool manualTriggered = false;
 
 
 unsigned long lastAutoFeedTime = 0;
-const unsigned long autoFeedInterval = 5 * 60 * 1000;
+const unsigned long autoFeedInterval = 3 * 60 * 60 * 1000;
 
 const int feedButtonPin = 13;
 

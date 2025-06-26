@@ -7,7 +7,7 @@ TelegramBot::TelegramBot() {
     bot = new UniversalTelegramBot(TELEGRAM_BOT_TOKEN, secureClient);
 }
 
-// Empty placeholder (used if needed later)
+
 void TelegramBot::begin() {
 }
 

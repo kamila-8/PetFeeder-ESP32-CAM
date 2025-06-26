@@ -1,0 +1,26 @@
+```markdown
+# `src/` Folder
+
+This folder contains the main code for the **ESP32 Pet Feeder** project.
+
+## Main Files
+- **`main.cpp`**: This is the main entry point of the system, where the logic is implemented. It handles:
+  - Connecting to Wi-Fi
+  - Setting up the MQTT connection
+  - Controlling the servo motor to dispense food
+  - Taking a photo using the ESP32 camera and sending it via Telegram
+
+## Key Functions
+- **setup()**: Initializes all components (Wi-Fi, MQTT, servo motor, camera).
+- **loop()**: Main loop that processes MQTT commands and triggers feeding.
+- **feed()**: Controls the servo motor to open and close the feeder door.
+- **sendPhoto()**: Captures and sends a photo of the bowl to Telegram.
+
+## How to Use
+1. **Set up your Wi-Fi credentials** in `config.h`.
+2. **Upload the code** to the ESP32 using PlatformIO.
+3. **Trigger feeding** via the button, MQTT command, or automatically every 3 hours.
+
+## Extending the Project
+- To add new features, modify the `main.cpp` file or add new modules in the `lib/` folder.
+- You can integrate more sensors or create a user-friendly interface.
