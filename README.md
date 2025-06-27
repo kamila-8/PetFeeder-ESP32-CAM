@@ -1,8 +1,8 @@
-# 🐾 **Automatic Pet Feeder with ESP32-CAM** 🐾
+# 🐾 Automatic Pet Feeder with ESP32-CAM 🐾
 
-This project is an **IoT-based automatic pet feeder** system powered by **ESP32-CAM**. It automates the feeding of pets using a **servo motor** and provides remote control via **MQTT** and a **Telegram bot**. The system operates in **auto mode** (feeding every 3 hours) and **manual mode** (feeding on user command via button, MQTT, or Telegram).
+This project is an **IoT-based automatic pet feeder** powered by **ESP32-CAM**. It automates pet feeding using a **servo motor** and provides remote control via **MQTT** and **Telegram bot**. The system has **auto mode** (feeds every 3 hours) and **manual mode** (feeds on user command via button, MQTT, or Telegram).
 
-## 📚 **Table of Contents**
+## Table of Contents
 
 - [Project Overview](#project-overview)
 - [Hardware Requirements](#hardware-requirements)
@@ -16,188 +16,170 @@ This project is an **IoT-based automatic pet feeder** system powered by **ESP32-
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 
-## 🚀 **Project Overview**
+## Project Overview
 
-The **Automatic Pet Feeder** uses the **ESP32-CAM** module to dispense food and interact with users. The system features **3 modes**:
-1. **Autonomous Mode**: Feeding occurs every 3 hours.
+The **Automatic Pet Feeder** uses the **ESP32-CAM** module to dispense food and interact with users. It supports three modes:
+
+1. **Autonomous Mode**: Feeds every 3 hours.
 2. **Manual Mode**: Trigger feeding via:
    - Push button 🟢
    - MQTT commands 📲
    - Telegram bot commands 📷
 
-The system provides **feedback** through MQTT and can send a **photo** of the pet's food bowl via the Telegram bot to confirm each action.
+System provides **feedback** via MQTT and sends a **photo** of the food bowl via Telegram to confirm actions.
 
-## ⚙️ **Hardware Requirements**
+## Hardware Requirements
 
 - **ESP32-CAM** (AI Thinker)
-- **Servo motor** (connected to GPIO 14)
+- **Servo motor** (GPIO 14)
 - **Push button** (GPIO 13)
 - **Breadboard and jumper wires**
 - **5V power supply**
 - **Capacitor (470µF, 16V)**
 - **Diode (100V, 3A)**
-- **Resistor (10KΩ)** 
+- **Resistor (10KΩ)**
 
-### **Hardware Connections**:
-- **Servo Motor** connected to GPIO 14 (Powering through the 5V supply)
-- **Push button** connected to GPIO 13
+### Hardware Connections
 
+1. **Servo** → GPIO 14  
+2. **Button** → GPIO 13 with pull-up resistor  
+3. **Power** → 5V (from ESP32)  
+4. **Resistor** → 10kΩ for pull-up on button  
+5. **Capacitor** → 470µF for power smoothing  
+6. **Diode** → 100V, 3A to suppress spikes
 
-### **Wiring**:
-1. Connect **servo motor** to **GPIO 14** for the food dispensing action.
-2. Connect **button** to **GPIO 13** (pull-up resistor is used).
-3. The **5V power** comes from the **ESP32** to power the servo and other components.
-4. Use the **10kΩ pull-up resistor** on the **push button** and the **470µF capacitor** to smooth power fluctuations.
-5. Connect the **diode (100V, 3A)** to prevent voltage spikes.
+## Software Requirements
 
-## 💻 **Software Requirements**
-
-- **Visual Studio with PlatformIO extension** (used for this project)
+- **Visual Studio Code + PlatformIO extension**
 - **Libraries**:
-  - `WiFi.h` (included with ESP32 package)
-  - `PubSubClient.h` (for MQTT communication)
-  - `ESP32Servo.h` (for controlling the servo motor)
-  - `UniversalTelegramBot.h` (for Telegram interaction)
-  - `ArduinoJson.h` (for parsing JSON data)
+  - `WiFi.h`
+  - `PubSubClient.h`
+  - `ESP32Servo.h`
+  - `UniversalTelegramBot.h`
+  - `ArduinoJson.h`
+- **MQTT Broker** (e.g., Mosquitto or EMQX)
+- **Telegram Bot API**
 
-- **MQTT Broker**: Mosquitto or any public MQTT broker
-- **Telegram Bot API**: To send photos and receive commands
+## Installation
 
-## 🔧 **Installation**
+### 1. Set up PlatformIO
 
-1. **Set up PlatformIO with Visual Studio**:
-   - Install **PlatformIO** from [platformio.org](https://platformio.org/).
-   - Open the **Visual Studio Code** and install the **PlatformIO** extension.
-   - Open **PlatformIO Home** and select **New Project** to create the project with **ESP32-CAM** board.
+- Download and install [PlatformIO](https://platformio.org/)
+- Install the PlatformIO extension in Visual Studio Code.
+- Create a new project for **ESP32-CAM**.
 
-2. **Install necessary libraries**:
-   - In **PlatformIO**, open the **PIO Home**.
-   - Go to **Libraries** > **Manage Libraries**, then search for and install the following libraries:
-     - `PubSubClient` (MQTT)
-     - `ESP32Servo` (for servo motor)
-     - `UniversalTelegramBot` (for Telegram interaction)
+### 2. Install Libraries
 
-3. **Clone the repository**:
-   ```bash
-   git clone https://github.com/kamila-8/PetFeeder-ESP32-CAM.git
+In PlatformIO > Libraries:
+- Search and install:
+  - `PubSubClient`
+  - `ESP32Servo`
+  - `UniversalTelegramBot`
 
+### 3. Clone the Repository
 
-Open main.cpp in PlatformIO and build the project.
+```bash
+git clone https://github.com/kamila-8/PetFeeder-ESP32-CAM.git
+```
 
-Assemble the hardware:
+- Open `main.cpp` in PlatformIO.
+- Connect your ESP32-CAM via USB.
+- Select correct COM port and click Upload.
 
-Connect the servo to GPIO 14, the button to GPIO 13, and the ESP32-CAM for camera functionality.
+## Configuration
 
-Upload the code:
+### Wi-Fi
 
-Connect your ESP32-CAM to your computer via USB.
+Edit `config.h`:
 
-In PlatformIO, select the correct Port and click Upload.
-
-⚙️ Configuration
-
-Wi-Fi:
-Open config.h and add your Wi-Fi credentials:
-
+```cpp
 #define WIFI_SSID "Your_SSID"
 #define WIFI_PASSWORD "Your_Password"
+```
 
+### MQTT
 
-MQTT:
-Configure the MQTT broker:
-
+```cpp
 #define MQTT_BROKER "broker.emqx.io"
 #define MQTT_PORT 1883
 #define MQTT_USER "username"
 #define MQTT_PASSWORD "password"
+```
 
+### Telegram Bot
 
-Telegram Bot:
-Add your Telegram Bot token and Chat ID in config.h:
-
+```cpp
 #define TELEGRAM_BOT_TOKEN "your-telegram-bot-token"
 #define CHAT_ID "your-chat-id"
+```
 
-📱 Usage
+## Usage
 
-Power up the ESP32 via USB.
+1. Power the ESP32 via USB.
+2. Open Serial Monitor in PlatformIO.
+3. Watch for status:
+   - "Connected to Wi-Fi!"
+   - "Connected to MQTT!"
 
-Open Serial Monitor in PlatformIO to monitor the connection status.
+### Control Options
 
-Wait for the system to connect to Wi-Fi and MQTT. You should see "Connected to Wi-Fi!" and "Connected to MQTT!" in the Serial Monitor.
+- **Manual**: Press the button / MQTT / Telegram command
+- **Auto**: Every 3 hours
 
-Control the feeder:
+### Telegram Bot Commands
 
-Manual Feeding: Press the button or send an MQTT message or use the Telegram bot.
+- `/photo` → Sends a photo from the ESP32-CAM
 
-Automatic Feeding: The system will feed every 3 hours automatically.
+## Code Structure
 
-🐱 Telegram Bot Interaction:
+- `main.cpp` → Application logic
+- `config.h` → Wi-Fi, MQTT, Telegram configs
+- `ServoController.h/.cpp` → Servo logic
+- `CameraManager.h/.cpp` → Camera control
+- `MQTTClient.h/.cpp` → MQTT logic
+- `TelegramBot.h/.cpp` → Telegram interaction
 
-Send /photo to receive a photo of the pet’s food bowl.
+## Troubleshooting
 
-📂 Code Structure
+### Wi-Fi
 
-main.cpp: Main application logic to handle feeding, camera control, and communication.
+- Ensure network is 2.4GHz
+- Verify SSID and password
 
-config.h: Wi-Fi, MQTT, and Telegram configurations.
+### MQTT
 
-ServoController.h/.cpp: Controls the servo motor to dispense food.
+- Ensure broker is running
+- Double-check credentials
 
-CameraManager.h/.cpp: Handles camera initialization and image capture.
+### Servo
 
-MQTTClient.h/.cpp: Manages MQTT communication and subscriptions.
+- Check GPIO 14 wiring
+- Test with basic code
 
-TelegramBot.h/.cpp: Manages Telegram bot integration for commands and image sending.
+### Telegram
 
-🛠️ Troubleshooting
+- Ensure Token and Chat ID are valid
+- Only image **sending** supported
 
-Wi-Fi Issues:
+## Future Improvements
 
-Ensure your network operates on 2.4 GHz (ESP32 does not support 5 GHz).
+- Add RGB LEDs
+- Better feeding mechanism
+- Blynk integration
+- Deep Sleep Mode
+- Enhanced camera features
 
-Double-check your SSID and password.
+## License
 
-MQTT Connection Failures:
+MIT License. See [LICENSE](LICENSE) file.
 
-Ensure the MQTT broker is running.
+## Acknowledgements
 
-Verify your MQTT credentials are correct.
+- Politecnico di Torino
+- Espressif Systems (ESP32 docs)
+- Arduino + MQTT communities
+- Telegram Bot API
 
-Servo not working:
-
-Check the wiring for the servo motor connected to GPIO 14.
-
-Test servo operation separately with basic code.
-
-Telegram Bot:
-
-Ensure the Bot Token and Chat ID are correct.
-
-The Telegram bot can only send images, not receive messages.
-
-🚀 Future Improvements
-Add RGB LEDs for more colorful animations.
-
-Replace servo motor with a more efficient feeding mechanism.
-
-Integrate with Blynk for a mobile app interface.
-
-Implement Deep Sleep Mode to reduce power consumption.
-
-Add more detailed camera functionality for better monitoring.
-
-📝 License
-This project is licensed under the MIT License. See the LICENSE file for more details.
-
-🙏 Acknowledgements
-Politecnico di Torino for academic support.
-
-Espressif Systems for the ESP32 documentation.
-
-Arduino and MQTT communities for the libraries and resources.
-
-Telegram for the Bot API.
 
 
 
