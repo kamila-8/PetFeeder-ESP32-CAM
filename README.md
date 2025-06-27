@@ -24,7 +24,7 @@ The **Automatic Pet Feeder** uses the **ESP32-CAM** module to dispense food and 
 2. **Manual Mode**: Trigger feeding via:
    - Push button 🟢
    - MQTT commands 📲
-   - Telegram bot commands 📷
+   - Telegram bot 📷
 
 System provides **feedback** via MQTT and sends a **photo** of the food bowl via Telegram to confirm actions.
 
@@ -123,12 +123,12 @@ Edit `config.h`:
 
 ### Control Options
 
-- **Manual**: Press the button / MQTT / Telegram command
+- **Manual**: Press the button / MQTT / Telegram 
 - **Auto**: Every 3 hours
 
 ### Telegram Bot Commands
 
-- `/photo` → Sends a photo from the ESP32-CAM
+- `PHOTO` → MQTT command that sends a photo to Telegram Bot from the ESP32-CAM
 
 ## Code Structure
 
@@ -163,7 +163,7 @@ Edit `config.h`:
 
 ## Future Improvements
 
-- Add RGB LEDs
+- Add accumulator 
 - Better feeding mechanism
 - Blynk integration
 - Deep Sleep Mode
